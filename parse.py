@@ -14,7 +14,7 @@ def main():
 
     # Step 2: Read .md files
     for md_file in md_files:
-        file_name, content = md_file_reader(md_file)
+        file_name, content = read_md_file(md_file)
 
         # Step 3: Parse content
         exercises = parse_workout_log(file_name, content)
@@ -23,7 +23,7 @@ def main():
         record_data(exercises)
         
 
-def md_file_reader(md_file):
+def read_md_file(md_file):
     file_path = os.path.join(FOLDER_PATH, md_file)
     file_name = os.path.basename(file_path)
     with open(file_path, 'r', encoding='utf-8') as file:
