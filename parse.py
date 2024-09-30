@@ -43,9 +43,9 @@ def parse_workout_log(file_name, content):
 
     # Parse exercise data
     exercises = []
-    for line in content.split('\n'):
+    for line in content.split('\n'):       
         if line.startswith('## '):
-            position = line.strip('# ')  # Position
+            position = clean_position(line)
         elif line.startswith('- [x] '):
             exercise_data = line[6:].split('｜')
             if len(exercise_data) >= 4:
@@ -55,12 +55,12 @@ def parse_workout_log(file_name, content):
                 sets_match = re.search(r'(\d+)\s*組', exercise_data[3])
 
                 if weight_match and reps_match and sets_match:
-                    weight = float(weight_match.group(1))  # Weight
+                    weight = round(float(weight_match.group(1)), 1)  # Weight
                     if 'x2' in exercise_data[1]:  # Single-hand exercise
-                        weight *= 2
+                        weight = round(weight * 2, 1)
                     reps = int(reps_match.group(1))  # Reps
                     sets = int(sets_match.group(1))  # Sets
-                    volume = weight * reps * sets  # Training volume
+                    volume = round(weight * reps * sets, 1)  # Training volume
 
                     exercises.append({'date': date, 'position': position, 'exercise': exercise, 'weight': weight,
                         'reps': reps, 'sets': sets, 'volume': volume})
@@ -81,10 +81,25 @@ def record_data(exercises):
                             VALUES (?, ?, ?, ?, ?, ?, ?)''', 
                         (exercise['date'], exercise['position'], exercise['exercise'], exercise['weight'], 
                             exercise['reps'], exercise['sets'], exercise['volume']))
+        print(f"Recorded: {exercise['date']}, {exercise['position']}, {exercise['exercise']}, {exercise['weight']}, {exercise['reps']}, {exercise['sets']}, {exercise['volume']}")
 
     # Commit changes and close connection
     conn.commit()
     conn.close()
+
+
+def clean_position(line):
+    valid_positions = ["胸", "背", "腿", "肩", "手", "核心"]
+    if line.startswith('## '):
+            position = line.strip('# ')  # Position 句子
+            if position[0:1] in valid_positions:
+                position = position[0:1]  # Position 第一個字
+            elif position[0:2] in valid_positions:
+                position = position[0:2]  # Position 前兩個字，例如核心
+            else:
+                position = 'Unknown'
+    return position
+
 
 
 if __name__ == "__main__":
