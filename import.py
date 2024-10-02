@@ -23,15 +23,16 @@ def main():
         record_data(exercises)
         
 
-def read_md_file(md_file):
+def read_md_file(md_file: str) -> tuple:
     file_path = os.path.join(FOLDER_PATH, md_file)
-    file_name = os.path.basename(file_path)
+    file_name: str = os.path.basename(file_path)
     with open(file_path, 'r', encoding='utf-8') as file:
-        content = file.read()
+        content: list[str] = file.readlines()
+        content: list[str] = [line.strip() for line in content]
         return file_name, content
 
 
-def record_data(exercises):
+def record_data(exercises: list[dict]):
 
     # Connect to SQLite database
     conn = sqlite3.connect('training.db')
