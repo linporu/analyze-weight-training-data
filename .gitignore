@@ -1,8 +1,7 @@
-# My workout log files
+# Data
+*.db
+*.csv
 workout_logs/
-
-# Database
-training.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
