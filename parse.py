@@ -19,7 +19,7 @@ def parse_workout_log(file_name: str, content: list[str]) -> list[dict]:
             exercise_data = line[6:].strip()
 
             exercise = clean_exercise(exercise_data)
-            weight = clean_weight(exercise_data)
+            weight = clean_weight(exercise_data, exercise)
             reps = clean_reps(exercise_data)
             sets = clean_sets(exercise_data)
             volume = round(weight * reps * sets, 1) if all([weight, reps, sets]) else None

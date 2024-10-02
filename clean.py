@@ -1,9 +1,14 @@
 import re
 
 
+# PATTERNS
 WEIGHT_PATTERN = r'(\d+(?:\.\d+)?)\s*kg ?(?: x2)?'
 REPS_PATTERN = r'(\d+)\s*下'
 SETS_PATTERN = r'(\d+)\s*組'
+
+
+# CONSTANTS
+BODY_WEIGHT = 60
 
 
 def clean_position(s: str) -> str:
@@ -32,9 +37,15 @@ def clean_exercise(s: str) -> str | None:
     return exercise if exercise else None
 
 
-def clean_weight(s: str) -> float | None:
+def clean_weight(s: str, exercise: str) -> float | None:
     if s is None:
         return None
+    
+    if "引體向上" in exercise:
+        return BODY_WEIGHT
+    elif "伏地挺身" in exercise:
+        return round(BODY_WEIGHT * 0.75, 1)
+    
     weight_match = re.search(WEIGHT_PATTERN, s)
     if weight_match:
         weight = round(float(weight_match.group(1)), 1)
