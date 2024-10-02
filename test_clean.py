@@ -1,5 +1,5 @@
 import pytest
-from parse import clean
+from clean import clean_position
 
 
 @pytest.mark.parametrize("valid_input, expected", [
@@ -17,4 +17,4 @@ from parse import clean
 
 def test_clean_position_expected(valid_input, expected):
 
-	assert clean(valid_input) == expected
+	assert clean_position(valid_input) == expected
