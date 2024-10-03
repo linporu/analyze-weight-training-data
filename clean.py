@@ -40,7 +40,6 @@ def clean_weight(s: str, exercise: str) -> float | None:
         return BODY_WEIGHT
     elif "伏地挺身" in exercise:
         return round(BODY_WEIGHT * 0.75, SIG_FIGS)
-    # FIXME: 依然有不少動作沒有重量
     
     pattern = r'(\d+(?:\.\d+)?)\s*kg ?(?: x2)?'
     weight_match = re.search(pattern, s)
