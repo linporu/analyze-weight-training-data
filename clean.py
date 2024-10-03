@@ -3,6 +3,7 @@ import re
 
 # CONSTANTS
 BODY_WEIGHT = 60
+SIG_FIGS = 1
 
 
 def clean_position(s: str) -> str:
@@ -38,14 +39,14 @@ def clean_weight(s: str, exercise: str) -> float | None:
     if "引體向上" in exercise:
         return BODY_WEIGHT
     elif "伏地挺身" in exercise:
-        return round(BODY_WEIGHT * 0.75, 1)
+        return round(BODY_WEIGHT * 0.75, SIG_FIGS)
     # FIXME: 依然有不少動作沒有重量
     
     pattern = r'(\d+(?:\.\d+)?)\s*kg ?(?: x2)?'
     weight_match = re.search(pattern, s)
     if weight_match:
-        weight = round(float(weight_match.group(1)), 1)
-        return weight if not 'x2' in s else round(weight * 2, 1)  # single-hand exercise
+        weight = round(float(weight_match.group(1)), SIG_FIGS)
+        return weight if not 'x2' in s else round(weight * 2, SIG_FIGS)  # single-hand exercise
     return None
 
 
