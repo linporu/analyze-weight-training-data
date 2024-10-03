@@ -1,12 +1,6 @@
 import re
 
 
-# PATTERNS
-WEIGHT_PATTERN = r'(\d+(?:\.\d+)?)\s*kg ?(?: x2)?'
-REPS_PATTERN = r'(\d+)\s*下'
-SETS_PATTERN = r'(\d+)\s*組'
-
-
 # CONSTANTS
 BODY_WEIGHT = 60
 
@@ -45,8 +39,10 @@ def clean_weight(s: str, exercise: str) -> float | None:
         return BODY_WEIGHT
     elif "伏地挺身" in exercise:
         return round(BODY_WEIGHT * 0.75, 1)
+    # FIXME: 依然有不少動作沒有重量
     
-    weight_match = re.search(WEIGHT_PATTERN, s)
+    pattern = r'(\d+(?:\.\d+)?)\s*kg ?(?: x2)?'
+    weight_match = re.search(pattern, s)
     if weight_match:
         weight = round(float(weight_match.group(1)), 1)
         return weight if not 'x2' in s else round(weight * 2, 1)  # single-hand exercise
@@ -56,12 +52,15 @@ def clean_weight(s: str, exercise: str) -> float | None:
 def clean_reps(s: str) -> int | None:
     if s is None:
         return None
-    reps_match = re.search(REPS_PATTERN, s)
+    
+    pattern = r'(\d+(?:\.\d+)?)\s*下'
+    reps_match = re.search(pattern, s)
     return int(reps_match.group(1)) if reps_match else None
 
 
 def clean_sets(s: str) -> int | None:
     if s is None:
         return None
-    sets_match = re.search(SETS_PATTERN, s)
+    pattern = r'(\d+(?:\.\d+)?)\s*組'
+    sets_match = re.search(pattern, s)
     return int(sets_match.group(1)) if sets_match else None

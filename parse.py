@@ -2,6 +2,7 @@ from clean import clean_position, clean_exercise, clean_weight, clean_reps, clea
 import re
 from datetime import datetime
 
+
 def parse_workout_log(file_name: str, content: list[str]) -> list[dict]:
     # Parse date
     date_match = re.search(r'(\d{6})', file_name)
