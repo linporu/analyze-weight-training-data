@@ -23,7 +23,6 @@ def parse_workout_log(file_name: str, content: list[str]) -> list[dict]:
             weight = clean_weight(exercise_data, exercise)
             reps = clean_reps(exercise_data)
             sets = clean_sets(exercise_data)
-            volume = round(weight * reps * sets, 1) if all([weight, reps, sets]) else None
 
             exercises.append({
                 'date': date,
@@ -32,7 +31,6 @@ def parse_workout_log(file_name: str, content: list[str]) -> list[dict]:
                 'weight': weight,
                 'reps': reps,
                 'sets': sets,
-                'volume': volume
             })
 
     return exercises

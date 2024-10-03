@@ -6,7 +6,7 @@ BODY_WEIGHT = 60
 SIG_FIGS = 1
 
 
-def clean_position(s: str) -> str:
+def clean_position(s: str) -> str | None:
     valid_positions = ["胸", "背", "腿", "肩", "手", "核心"]
     if s.startswith('## '):
         position = s.strip('# ')  # Position 句子
@@ -32,8 +32,8 @@ def clean_exercise(s: str) -> str | None:
     return exercise if exercise else None
 
 
-def clean_weight(s: str, exercise: str) -> float | None:
-    if s is None:
+def clean_weight(s: str, exercise: str | None) -> float | None:
+    if s is None or exercise is None:
         return None
     
     if "引體向上" in exercise:

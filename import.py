@@ -28,7 +28,7 @@ def read_md_file(md_file: str) -> tuple:
     file_name: str = os.path.basename(file_path)
     with open(file_path, 'r', encoding='utf-8') as file:
         content: list[str] = file.readlines()
-        content: list[str] = [line.strip() for line in content]
+        content = [line.strip() for line in content]
         return file_name, content
 
 
@@ -41,11 +41,11 @@ def record_data(exercises: list[dict]):
     # Record data
     for exercise in exercises:
         cursor.execute('''INSERT INTO training 
-                            (date, position, exercise, weight, reps, sets, volume) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?)''', 
+                            (date, position, exercise, weight, reps, sets) 
+                            VALUES (?, ?, ?, ?, ?, ?)''', 
                         (exercise['date'], exercise['position'], exercise['exercise'], exercise['weight'], 
-                            exercise['reps'], exercise['sets'], exercise['volume']))
-        print(f"Recorded: {exercise['date']}, {exercise['position']}, {exercise['exercise']}, {exercise['weight']}, {exercise['reps']}, {exercise['sets']}, {exercise['volume']}")
+                            exercise['reps'], exercise['sets']))
+        print(f"Recorded: {exercise['date']}, {exercise['position']}, {exercise['exercise']}, {exercise['weight']}, {exercise['reps']}, {exercise['sets']}")
 
     # Commit changes and close connection
     conn.commit()
