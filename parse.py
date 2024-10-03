@@ -1,9 +1,12 @@
 from clean import clean_position, clean_exercise, clean_weight, clean_reps, clean_sets
 import re
 from datetime import datetime
-
+from workout import Workout
 
 def parse_workout_log(file_name: str, content: list[str]) -> list[dict]:
+    workout = Workout()
+    
+    
     # Parse date
     date_match = re.search(r'(\d{6})', file_name)
     if date_match:
