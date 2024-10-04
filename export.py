@@ -3,11 +3,11 @@ import csv
 
 
 def main():
-    conn = sqlite3.connect('training.db')
+    conn = sqlite3.connect("training.db")
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM training')
+    cursor.execute("SELECT * FROM training")
     rows = cursor.fetchall()
-    with open('training.csv', 'w', newline='') as file:
+    with open("training.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([i[0] for i in cursor.description])
         writer.writerows(rows)
