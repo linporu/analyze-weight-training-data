@@ -25,10 +25,6 @@ def clean_exercise(s: str) -> str | None:
 
     exercise = s.split("｜")[0].strip()
 
-    # Replace 'Leg Crul' with 'Leg Curl'
-    if "Leg Crul" in exercise:
-        exercise = exercise.replace("Leg Crul", "Leg Curl")
-
     return exercise if exercise else None
 
 
